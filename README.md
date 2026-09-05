@@ -224,7 +224,7 @@ Once downloaded:
    ```
 
 ### Option B: Build from Source
-If you prefer compiling the project yourself, follow the instructions in the [Building from Source](#-building-from-source) section below.
+If you prefer compiling the project yourself, follow the instructions in the [Building from Source](#building-from-source) section below.
 
 ---
 
@@ -249,6 +249,7 @@ WANotify bridges notifications so your companion app never receives raw, stacked
 
 ---
 
+<a id="building-from-source"></a>
 ## 🛠️ Building from Source
 
 ### Prerequisites
