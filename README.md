@@ -250,11 +250,3 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 MIT License
 Copyright (c) 2026 Enes Uzun
 ```
-
----
-
-## 👤 Author
-
-**Enes Uzun**
-- GitHub: [@enesuzun2002](https://github.com/enesuzun2002)
-- Open to Android Engineering opportunities, collaborations, and discussions.
