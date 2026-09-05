@@ -13,6 +13,7 @@
   <a href="https://developer.android.com/about/versions/oreo"><img src="https://img.shields.io/badge/Min%20SDK-26%20(Android%208.0)-brightgreen.svg" alt="Min SDK" /></a>
   <a href="https://developer.android.com"><img src="https://img.shields.io/badge/Target%20SDK-37-brightgreen.svg" alt="Target SDK" /></a>
   <a href="https://developer.android.com/jetpack/compose"><img src="https://img.shields.io/badge/UI-Jetpack%20Compose%20%7C%20Material%203-blueviolet.svg?logo=jetpackcompose" alt="Compose UI" /></a>
+  <a href="https://github.com/enesuzun2002/WANotify/releases"><img src="https://img.shields.io/badge/Release-Download%20APK-orange.svg?logo=android" alt="Download APK" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License" /></a>
   <a href="#test-coverage-and-quality-assurance"><img src="https://img.shields.io/badge/Unit%20Tests-100%25%20Passing-success.svg" alt="Tests" /></a>
 </p>
@@ -207,26 +208,88 @@ The core business and deduplication logic is decoupled from Android OS framework
 
 ---
 
-## 🚀 Setup & User Guide
+---
 
-### 1. Build and Install
-Compile and install the debug APK onto your Android device:
-```bash
-./gradlew assembleDebug
-adb install app/build/outputs/apk/debug/app-debug.apk
-```
+## 🚀 Installation & Setup
 
-### 2. Configure Permissions
+### Option A: Download Pre-Built APK (Recommended)
+The quickest way to get started is to download the latest signed APK directly from GitHub:
+👉 **[Download Latest APK from GitHub Releases](https://github.com/enesuzun2002/WANotify/releases)**
+
+Once downloaded:
+1. Open the `.apk` file on your Android device to install (enable *"Install unknown apps"* for your browser or file manager if prompted).
+2. Alternatively, install via ADB:
+   ```bash
+   adb install WANotify-release.apk
+   ```
+
+### Option B: Build from Source
+If you prefer compiling the project yourself, follow the instructions in the [Building from Source](#-building-from-source) section below.
+
+---
+
+## ⚙️ Configuration & Companion App Setup
+
+### 1. Grant Notification Access
 1. Launch **WANotify**.
-2. Tap **Grant Access** under **Notification Access** and enable WANotify in Android's *Notification Read & Control* settings.
-3. Tap **Disable Restrictions** under **Battery Optimization** and select **Allow** to exempt WANotify from OS power killing.
+2. Tap **Grant Access** under **Notification Access**.
+3. In Android's *Device & app notifications* screen, toggle **WANotify** to **Allow**.
 
-### 3. Configure Companion App (Honor Health / Zepp / etc.)
-1. Open your smartwatch companion app (e.g., **Honor Health**, **Zepp**, **Huawei Health**).
-2. Go to **Device** &rarr; **Notifications**.
+### 2. Disable Battery Restrictions
+1. Tap **Disable Restrictions** under **Battery Optimization**.
+2. In the native system prompt, tap **Allow** to exempt WANotify from Android's background execution limits and Doze mode termination.
+
+### 3. Configure Your Smartwatch Companion App
+WANotify bridges notifications so your companion app never receives raw, stacked WhatsApp bundles:
+1. Open your smartwatch companion app (e.g., **Honor Health**, **Zepp / Amazfit**, **Huawei Health**, **Garmin Connect**, or **Mi Fitness**).
+2. Navigate to **Device** &rarr; **App Notifications**.
 3. **Disable** notifications for **WhatsApp**.
 4. **Enable** notifications for **WANotify**.
-5. Enjoy clean, instant, single-vibration WhatsApp notifications on your watch!
+5. You're all set! Your smartwatch will now receive instant, deduplicated, single-vibration WhatsApp alerts with proper sender and group attribution.
+
+---
+
+## 🛠️ Building from Source
+
+### Prerequisites
+- **Git**
+- **JDK 17** or **JDK 21** (or Android Studio's bundled JetBrains Runtime / JBR)
+- **Android SDK** (API Level 26 through 37)
+- **Android Studio Ladybug (2024.2+)** or later (optional, for IDE development)
+
+### Step-by-Step Build Instructions
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/enesuzun2002/WANotify.git
+   cd WANotify
+   ```
+
+2. **Run Unit Tests**:
+   Verify that all deduplication and domain tests pass:
+   ```bash
+   ./gradlew test
+   ```
+
+3. **Build Debug APK**:
+   ```bash
+   ./gradlew assembleDebug
+   ```
+   The generated APK will be available at:
+   `app/build/outputs/apk/debug/app-debug.apk`
+
+4. **Build Release APK**:
+   ```bash
+   ./gradlew assembleRelease
+   ```
+   The generated release APK will be available at:
+   `app/build/outputs/apk/release/app-release-unsigned.apk`
+
+5. **Install to Connected Device**:
+   Ensure USB debugging is enabled on your phone:
+   ```bash
+   adb install app/build/outputs/apk/debug/app-debug.apk
+   ```
 
 ---
 
@@ -242,9 +305,54 @@ adb install app/build/outputs/apk/debug/app-debug.apk
 
 ---
 
+## 🤝 Contributing
+
+Contributions, bug reports, and feature requests are very welcome! Whether you are fixing a bug, adding support for a new wearable companion quirk, or improving documentation, your input is appreciated.
+
+### How to Contribute
+1. **Fork the Repository**: Click the **Fork** button at the top right of the page.
+2. **Clone Your Fork**:
+   ```bash
+   git clone https://github.com/<your-username>/WANotify.git
+   cd WANotify
+   ```
+3. **Create a Feature Branch**:
+   ```bash
+   git checkout -b feat/your-feature-name
+   ```
+4. **Follow Project Guidelines**:
+   - Maintain Clean Architecture boundaries (`core`, `domain`, `service`, `presentation`).
+   - Preserve thread safety in deduplication algorithms (`ConcurrentHashMap`, atomic operations).
+   - Write unit tests in `app/src/test/` for any new filtering logic or edge cases.
+5. **Verify Tests and Build**:
+   Ensure all unit tests and builds compile without warnings:
+   ```bash
+   ./gradlew test
+   ./gradlew assembleDebug
+   ```
+6. **Commit Your Changes**:
+   ```bash
+   git commit -m "feat: add support for custom vibration tags"
+   ```
+7. **Push to Your Branch**:
+   ```bash
+   git push origin feat/your-feature-name
+   ```
+8. **Open a Pull Request**: Submit your PR against the `main` branch with a clear description of the problem and your solution.
+
+### Reporting Issues & Smartwatch Feedback
+- Encountering unexpected behavior with a specific smartwatch model or companion app update?
+- Please [Open a GitHub Issue](https://github.com/enesuzun2002/WANotify/issues) and include:
+  - Phone brand & Android version
+  - Smartwatch model (e.g., Honor Watch 4, Amazfit GTR, Huawei Watch GT)
+  - Companion app version (e.g., Honor Health v17.0.x)
+  - Expected vs actual notification behavior
+
+---
+
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is open source and licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ```
 MIT License
