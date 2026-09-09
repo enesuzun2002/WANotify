@@ -44,4 +44,12 @@ class BridgeNotificationHelper(private val context: Context) {
 
         notificationManager.notify(id, builder.build())
     }
+
+    fun cancelNotification(id: Int) {
+        notificationManager.cancel(id)
+    }
+
+    fun cancelAllNotifications() {
+        notificationManager.cancelAll()
+    }
 }
